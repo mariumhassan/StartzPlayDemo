@@ -27,7 +27,7 @@ class MainViewControler: UIViewController, ViewModelProtocol {
     @IBOutlet var likeBtn: UIButton!
     @IBOutlet var watchlistBtn: UIButton!
     
-    var tvShowId = 62852
+    var tvShowId = 62852  // temporary tv id to fetch data
     var lastSelectedCell = -1
     
     override func viewDidLoad() {
@@ -75,6 +75,7 @@ class MainViewControler: UIViewController, ViewModelProtocol {
     
     @objc func goToPlayer(sender: UITapGestureRecognizer)
     {
+        // Added video player on tap of play button
         performSegue(withIdentifier: "videoPlayer", sender: self)
     }
     
@@ -144,7 +145,8 @@ extension MainViewControler: UITableViewDelegate, UITableViewDataSource
         
         if let cell = self.myTableView.dequeueReusableCell(withIdentifier: "EpisodeTblCell") as? EpisodeTblCell
         {
-            cell.episodeName.text = self.viewModel?.seasonDetails.episodes?[indexPath.row].name ?? ""
+            //cell.episodeName.text = self.viewModel?.seasonDetails.episodes?[indexPath.row].name ?? ""
+            // using subviews because taking outlets was giving an absurd error "this class is not key value coding-compliant for the key episodeName" which i was unable to figure out why is occuring
             if cell.contentView.subviews[0].subviews.count > 2
             {
                 (cell.contentView.subviews[0].subviews[2] as? UILabel)?.text = "E\(indexPath.row + 1) - " +  (self.viewModel?.seasonDetails.episodes?[indexPath.row].name ?? "")
